@@ -1,0 +1,16 @@
+/*
+Theme Name: WPDev Custom Theme
+Theme URI:    
+Description:  This is the WordPress Development Custom Theme
+Author:       WordPress.org
+Author URI:   https://wordpress.org/
+Version:      1.0.0
+Text Domain:  wpdevcustomtheme
+
+
+*/
+
+body {
+  background-color: rgb(189, 182, 182);
+  color: black;
+}
