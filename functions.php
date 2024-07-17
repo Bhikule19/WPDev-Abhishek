@@ -15,6 +15,9 @@ function custom_style_sheet(){
 
 function custom_theme_features(){
     add_theme_support('title-tag');
+    // register_nav_menu('HeaderMenuLocation', 'Header Menu Location'); //Registers a navigation menu location for a theme.
+    // register_nav_menu('footerlocationone', 'Footer Location One'); //Registers a navigation menu location for a theme.
+    // register_nav_menu('footerlocationytwo', 'Footer Location Two'); //Registers a navigation menu location for a theme.
 
 }
 add_action('after_setup_theme', 'custom_theme_features');
