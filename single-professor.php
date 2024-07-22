@@ -4,7 +4,7 @@
 
   while(have_posts()) {
     the_post();
-    display_page_banner_subtitle(array());
+    display_page_banner_subtitle();
     ?>
         
     

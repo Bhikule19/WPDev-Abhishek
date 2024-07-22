@@ -33,8 +33,6 @@ function display_page_banner_subtitle($args = null){ //In your case, you want to
 
     ?>
 
-
-
 <div class="page-banner">
       <div class="page-banner__bg-image" style="background-image: url(<?php echo $args['photo']; 
       ?>);"></div>
