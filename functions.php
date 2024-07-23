@@ -1,5 +1,7 @@
 <?php 
 
+require get_theme_file_path('./inc/search-route.php');
+
 //Adding style sheet
 
 add_action('wp_enqueue_scripts', 'custom_style_sheet');
@@ -10,10 +12,24 @@ function custom_style_sheet(){
     wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css');
     wp_enqueue_style('custom_main_styles', get_theme_file_uri('./build/style-index.css'));
     wp_enqueue_style('custom_reset_styles', get_theme_file_uri('./build/index.css'));
+
+    wp_localize_script('main-js-file', 'universityData', array(
+        'root_url' => get_site_url(),
+    ));
+}
+//Adding  new property to the raw JSON data ( new custom field to the WordPress REST API for posts.)
+//In this case, the function university_custom_rest_api_data is registered to run when the REST API is initialized using the rest_api_init action hook. Within this function, the register_rest_field function is used to add a new field called authorName to the REST API response for posts. The get_callback parameter is set to a anonymous function that returns the author of the current post using the get_the_author function.
+function university_custom_rest_api_data(){
+    register_rest_field('post', 'authorName', array(
+        'get_callback' => function(){
+            return get_the_author();
+        }
+    ));
 }
 
-// function to display the page bg and subtite dynamically
+add_action('rest_api_init', 'university_custom_rest_api_data');
 
+// function to display the page bg and subtite dynamically
 function display_page_banner_subtitle($args = null){ //In your case, you want to check if the $args variable is null 
     
     if(!isset($args['title'])) {
