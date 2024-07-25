@@ -15,6 +15,7 @@ function custom_style_sheet(){
 
     wp_localize_script('main-js-file', 'universityData', array(
         'root_url' => get_site_url(),
+        'nonce' => wp_create_nonce('wp_rest'),
     ));
 }
 //Adding  new property to the raw JSON data ( new custom field to the WordPress REST API for posts.)
@@ -102,6 +103,59 @@ function custom_adjust_queries($query){
 }
 
 add_action('pre_get_posts', 'custom_adjust_queries');
+
+//Redirect subscriber account out of admin and onto homepage
+
+add_action('admin_init', 'redirectSubsToFrontend');
+
+function redirectSubsToFrontend() {
+    $curentUser = wp_get_current_user();
+
+    if(count($curentUser->roles) === 1 && $curentUser-> roles[0] === 'subscriber' ){
+        wp_safe_redirect( home_url('/') );
+        exit;
+    }
+}
+
+// to not let them have sho w thw admin bar
+add_action('wp_loaded', 'noSubsAdminBar');
+function noSubsAdminBar() {
+    $curentUser = wp_get_current_user();
+
+    if(count($curentUser->roles) === 1 && $curentUser-> roles[0] === 'subscriber' ){
+        show_admin_bar(false);
+    }
+}
+
+//customise login screen
+
+add_filter('login_headerurl', 'headerURL');
+function headerURL(){
+    return esc_url(site_url('./'));
+}
+
+// add css to the login screen
+
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+function ourLoginCSS(){
+    wp_enqueue_style('google-font', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+    wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css');
+    wp_enqueue_style('custom_main_styles', get_theme_file_uri('./build/style-index.css'));
+    wp_enqueue_style('custom_reset_styles', get_theme_file_uri('./build/index.css'));
+
+    wp_localize_script('main-js-file', 'universityData', array(
+        'root_url' => get_site_url(),
+    ));
+}
+
+// change the h1 tag name of the login header 
+
+add_filter('login_headertitle', 'ourLoginTitle');
+
+function ourLoginTitle(){
+    return 'University Login';
+}
 
 ?>
 

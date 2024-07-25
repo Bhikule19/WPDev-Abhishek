@@ -13,9 +13,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+/* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -24,6 +26,7 @@ __webpack_require__.r(__webpack_exports__);
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 (0,_modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"])(); // Initialize the search overlay functionality
+(0,_modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"])(); // Initialize the notes functionality
 
 /***/ }),
 
@@ -97,6 +100,52 @@ class MobileMenu {
 
 /***/ }),
 
+/***/ "./src/modules/MyNotes.js":
+/*!********************************!*\
+  !*** ./src/modules/MyNotes.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function myNotes() {
+  const deleteButton = document.querySelector(".delete-note");
+  if (deleteButton) {
+    deleteButton.addEventListener("click", deleteNote);
+  }
+
+  // Delete note function
+  function deleteNote(event) {
+    const url = `${universityData.root_url}/wp-json/wp/v2/note/92`;
+
+    // Define the options for the fetch request, including method and headers
+    const options = {
+      method: "DELETE",
+      headers: {
+        "X-WP-Nonce": universityData.nonce //AJAX Request: Using fetch for the DELETE request, including the nonce in the headers.
+      }
+    };
+    fetch(url, options).then(response => {
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+        return response.json().then(errorInfo => Promise.reject(errorInfo));
+      }
+      return response.json();
+    }).then(data => {
+      console.log("Congrats");
+      console.log(data);
+    }).catch(error => {
+      console.log("Sorry");
+      console.log(error);
+    });
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (myNotes);
+
+/***/ }),
+
 /***/ "./src/modules/Search.js":
 /*!*******************************!*\
   !*** ./src/modules/Search.js ***!
@@ -128,6 +177,7 @@ function initializeSearch() {
     searchField.value = ""; // Clear the search field value
     setTimeout(() => searchField.focus(), 301); // Add a delay to focus on the search field
     isOverlay = true; // Set isOverlay to true when the overlay is opened
+    return false;
   }
 
   // Function to close the search overlay

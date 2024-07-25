@@ -19,6 +19,7 @@ function initializeSearch() {
     searchField.value = ""; // Clear the search field value
     setTimeout(() => searchField.focus(), 301); // Add a delay to focus on the search field
     isOverlay = true; // Set isOverlay to true when the overlay is opened
+    return false;
   }
 
   // Function to close the search overlay
