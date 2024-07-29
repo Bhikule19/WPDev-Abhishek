@@ -18,6 +18,12 @@
             <?php the_post_thumbnail('professorPortrait'); ?>
             </div>
             <div class="two-thirds">
+              <span class="like-box" >
+              <i class="fa-regular fa-heart"></i>
+              <i class="fa-solid fa-heart"></i>
+              
+                <span class="like-count">3</span>
+              </span>
             <?php the_content(); ?>
             </div>
         </div>

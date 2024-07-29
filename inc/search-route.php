@@ -14,6 +14,10 @@ function universityRegisterSearch() {
     ));
 }
 
+
+//WP_Query is a class in WordPress that is used to retrieve posts based on specific criteria. It is a powerful tool for customizing and querying the WordPress database.
+
+// WP_Query is a part of the WordPress Core and is used extensively in themes and plugins to display content on your website. It allows you to customize the query by passing arguments to the constructor, such as the post type, category, author, date range, and more.
 function universitySearchResults($data){
    $mainQuery = new WP_Query(array(
     'post_type' => array('post', 'page', 'professor', 'program', 'campus', 'event'), 
