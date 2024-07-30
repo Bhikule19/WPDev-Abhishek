@@ -70,6 +70,7 @@ function custom_theme_features(){
     add_theme_support('post-thumbnails');
     add_image_size('professorLandscape', 400, 260, true);
     add_image_size('professorPortrait', 480, 650, true);
+    add_image_size('quicktest', 100, 100, true);
     add_image_size('pageBanner', 1500, 350, true);
     // register_nav_menu('HeaderMenuLocation', 'Header Menu Location'); //Registers a navigation menu location for a theme.
     // register_nav_menu('footerlocationone', 'Footer Location One'); //Registers a navigation menu location for a theme.
@@ -77,6 +78,8 @@ function custom_theme_features(){
 
 }
 add_action('after_setup_theme', 'custom_theme_features');
+
+
 
 function custom_adjust_queries($query){
 

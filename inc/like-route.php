@@ -28,11 +28,10 @@
             )
           ));
       
-          if ($existQuery->found_posts == 0 AND get_post_type($professor) == 'professor') {
+          if ($existQuery->found_posts == 0 && get_post_type($professor) == 'professor') {
             return wp_insert_post(array(
               'post_type' => 'like',
               'post_status' => 'publish',
-              'post_title' => '2nd PHP Test',
               'meta_input' => array(
                 'liked_professor_id' => $professor
               )

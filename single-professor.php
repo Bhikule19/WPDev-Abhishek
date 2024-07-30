@@ -20,7 +20,7 @@
             <div class="two-thirds">
 
             <?php 
-            
+            //Query to count likes
             $likeCount = new WP_Query(array(
               'post_type' => 'like',
               'meta_query' => array(
@@ -32,6 +32,8 @@
               )
             ));
 
+            
+            //Check if the user has liked this professor:
             $existStatus = 'no';
 
             if (is_user_logged_in()) {
