@@ -14,9 +14,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -27,6 +29,7 @@ const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 (0,_modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"])(); // Initialize the search overlay functionality
 (0,_modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"])(); // Initialize the notes functionality
+(0,_modules_Like__WEBPACK_IMPORTED_MODULE_5__["default"])(); // Initialize the like button functionality
 
 /***/ }),
 
@@ -68,6 +71,98 @@ class HeroSlider {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function likeFunction() {
+  function events() {
+    document.querySelectorAll(".like-box").forEach(function (element) {
+      element.addEventListener("click", ourClickDispatcher);
+    });
+  }
+  function ourClickDispatcher(e) {
+    var currentLikeBox = e.target.closest(".like-box");
+    if (currentLikeBox.dataset.exists === "yes") {
+      deleteLike(currentLikeBox);
+    } else {
+      createLike(currentLikeBox);
+    }
+  }
+  function createLike(currentLikeBox) {
+    const url = universityData.root_url + "/wp-json/university/v1/manageLike";
+    const likeData = {
+      professorId: currentLikeBox.dataset.professor
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-WP-Nonce": universityData.nonce
+      },
+      body: JSON.stringify(likeData)
+    };
+    fetch(url, options).then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    }).then(data => {
+      currentLikeBox.setAttribute("data-exists", "yes");
+      const likeCountElement = currentLikeBox.querySelector(".like-count");
+      let likeCount = parseInt(likeCountElement.innerHTML, 10);
+      likeCount++;
+      likeCountElement.innerHTML = likeCount;
+      currentLikeBox.setAttribute("data-like", data);
+      console.log(data);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+  function deleteLike(currentLikeBox) {
+    const url = `${universityData.root_url}/wp-json/university/v1/manageLike`;
+    const likeData = {
+      like: currentLikeBox.dataset.like
+    };
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-WP-Nonce": universityData.nonce
+      },
+      body: JSON.stringify(likeData)
+    };
+    fetch(url, options).then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    }).then(data => {
+      currentLikeBox.setAttribute("data-exists", "no");
+      const likeCountElement = currentLikeBox.querySelector(".like-count");
+      let likeCount = parseInt(likeCountElement.innerHTML, 10);
+      likeCount--;
+      likeCountElement.innerHTML = likeCount;
+      currentLikeBox.setAttribute("data-like", "");
+      console.log(data);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  // Initialize the events
+  events();
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (likeFunction);
 
 /***/ }),
 
