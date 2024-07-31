@@ -57,7 +57,7 @@
             ?>
 
             <span class="like-box" data-like="<?php if (isset($existQuery->posts[0]->ID)) echo $existQuery->posts[0]->ID; ?>" data-professor="<?php the_ID(); ?>"  data-exists="<?php echo $existStatus; ?>">
-              <i class="fa-regular fa-heart"></i>
+              <i class="fa-regular fa-heart fa-heart-o "></i>
               <i class="fa-solid fa-heart"></i>
               <!-- $likeCount->found_posts this will get the value if it exits for these case it will give 1 for meowsalot and 0 for barksalot as we have created like taxonomy for only meowsalot id -->
                 <span class="like-count"><?php echo $likeCount->found_posts; ?></span> 

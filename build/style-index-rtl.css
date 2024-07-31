@@ -438,7 +438,7 @@ li {
   padding-right: 10px;
 }
 
-.like-box .fa-heart-o {
+.like-box .fa-heart {
   transition: all 0.35s ease-out;
   position: absolute;
   right: 10px;
@@ -459,7 +459,7 @@ li {
   opacity: 1;
 }
 
-.like-box[data-exists=yes] .fa-heart-o {
+.like-box[data-exists=yes] .fa-heart {
   visibility: hidden;
   opacity: 0;
 }
